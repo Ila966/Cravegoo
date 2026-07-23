@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
   renderCart();
+  window.addEventListener('cartUpdated', () => {
+    renderCart();
+  });
 });
 
 function renderCart() {

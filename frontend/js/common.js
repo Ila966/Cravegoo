@@ -59,6 +59,20 @@ function showToast(message, type = 'success') {
   }, 4000);
 }
 
+// Helper to extract clean string ID from any object or primitive
+function getEntityId(val) {
+  if (!val) return '';
+  if (typeof val === 'string') return val;
+  if (typeof val === 'number') return String(val);
+  if (typeof val === 'object') {
+    if (val._id) return getEntityId(val._id);
+    if (val.id) return getEntityId(val.id);
+    if (val.$oid) return String(val.$oid);
+    if (typeof val.toString === 'function' && val.toString() !== '[object Object]') return val.toString();
+  }
+  return String(val);
+}
+
 // Cart Helpers
 const Cart = {
   get: () => {
@@ -72,20 +86,22 @@ const Cart = {
   save: (cart) => {
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartCountBadge();
+    window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { cart } }));
   },
 
   add: (product, businessId) => {
     let cart = Cart.get();
+    const pId = getEntityId(product);
+    const bId = getEntityId(businessId);
     
     // Check if item is from a different business. 
-    // Usually customers can only order from one business at a time.
-    if (cart.length > 0 && cart[0].businessId !== businessId) {
+    if (cart.length > 0 && getEntityId(cart[0].businessId) !== bId) {
       const confirmClear = confirm("Your cart contains items from another business. Clear cart and add this item?");
       if (!confirmClear) return false;
       cart = [];
     }
 
-    const existing = cart.find(item => item.productId === product._id);
+    const existing = cart.find(item => getEntityId(item.productId) === pId || getEntityId(item) === pId);
     if (existing) {
       if (existing.quantity >= product.stock) {
         showToast(`Cannot add more. Only ${product.stock} items left in stock.`, 'error');
@@ -93,14 +109,15 @@ const Cart = {
       }
       existing.quantity++;
     } else {
+      const image = (product.images && product.images[0]) ? product.images[0] : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=80';
       cart.push({
-        productId: product._id,
+        productId: pId,
         name: product.name,
         price: product.price,
-        image: product.images[0] || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=80',
+        image,
         quantity: 1,
         stock: product.stock,
-        businessId
+        businessId: bId
       });
     }
 
@@ -111,20 +128,28 @@ const Cart = {
 
   updateQuantity: (productId, qty) => {
     let cart = Cart.get();
-    const item = cart.find(item => item.productId === productId);
+    const pId = getEntityId(productId);
+    const item = cart.find(item => getEntityId(item.productId) === pId || getEntityId(item) === pId);
     if (item) {
+      if (qty <= 0) {
+        cart = cart.filter(i => getEntityId(i.productId) !== pId && getEntityId(i) !== pId);
+        Cart.save(cart);
+        showToast('Item removed from cart', 'info');
+        return;
+      }
       if (qty > item.stock) {
         showToast(`Only ${item.stock} items in stock`, 'error');
         return;
       }
-      item.quantity = Math.max(1, qty);
+      item.quantity = qty;
       Cart.save(cart);
     }
   },
 
   remove: (productId) => {
     let cart = Cart.get();
-    cart = cart.filter(item => item.productId !== productId);
+    const pId = getEntityId(productId);
+    cart = cart.filter(item => getEntityId(item.productId) !== pId && getEntityId(item) !== pId);
     Cart.save(cart);
     showToast('Item removed from cart', 'info');
   },
@@ -132,6 +157,7 @@ const Cart = {
   clear: () => {
     localStorage.removeItem('cart');
     updateCartCountBadge();
+    window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { cart: [] } }));
   }
 };
 
@@ -287,3 +313,4 @@ function redirectRole(role) {
 // Global Exports
 window.showToast = showToast;
 window.Cart = Cart;
+window.getEntityId = getEntityId;

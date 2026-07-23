@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   loadStoreAndProducts();
+
+  window.addEventListener('cartUpdated', () => {
+    if (allProducts && allProducts.length > 0) {
+      renderProducts(allProducts);
+    }
+    updateFloatingCartBar();
+  });
 });
 
 async function loadStoreAndProducts() {
@@ -65,7 +72,6 @@ function renderCategoryTabs() {
   const container = document.getElementById('categories-tabs');
   if (!container) return;
 
-  // Extract unique categories
   const categories = ['All', ...new Set(allProducts.map(p => p.category))];
   
   container.innerHTML = '';
@@ -73,7 +79,7 @@ function renderCategoryTabs() {
     const isActive = activeCategory === cat;
     const btn = document.createElement('button');
     btn.className = `px-4 py-2 rounded-xl text-sm font-semibold transition ${
-      isActive ? 'bg-indigo-600 text-white shadow-lg' : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-800'
+      isActive ? 'bg-[#e23744] text-white shadow-lg' : 'bg-slate-900 text-slate-300 hover:text-white border border-slate-800'
     }`;
     btn.textContent = cat;
     btn.onclick = () => selectCategory(cat);
@@ -92,10 +98,13 @@ function renderProducts(list) {
 
   if (filtered.length === 0) {
     emptyMenu.classList.remove('hidden');
+    updateFloatingCartBar();
     return;
   }
 
   emptyMenu.classList.add('hidden');
+
+  const cart = window.Cart.get();
 
   filtered.forEach(prod => {
     const card = document.createElement('div');
@@ -103,6 +112,39 @@ function renderProducts(list) {
 
     const pImage = prod.images && prod.images[0] ? prod.images[0] : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80';
     const isOutOfStock = prod.stock <= 0;
+    const pId = getEntityId(prod);
+
+    const cartItem = cart.find(item => getEntityId(item.productId) === pId || getEntityId(item) === pId);
+    const cartQty = cartItem ? cartItem.quantity : 0;
+
+    let cartActionHtml = '';
+    if (isOutOfStock) {
+      cartActionHtml = `
+        <button disabled class="px-3.5 py-2 bg-slate-200 text-slate-400 text-xs font-semibold rounded-lg cursor-not-allowed uppercase">
+          Out of Stock
+        </button>
+      `;
+    } else if (cartQty > 0) {
+      cartActionHtml = `
+        <div class="flex items-center bg-[#e23744] text-white rounded-xl shadow-md px-1 py-0.5 min-w-[100px] justify-between">
+          <button onclick="updateCartItemQty('${pId}', ${cartQty - 1})"
+                  title="Decrease quantity"
+                  class="w-7 h-7 flex items-center justify-center text-white hover:bg-black/20 rounded-lg transition font-extrabold text-base select-none cursor-pointer">-</button>
+          <span class="w-6 text-center text-sm font-extrabold text-white select-none">${cartQty}</span>
+          <button onclick="updateCartItemQty('${pId}', ${cartQty + 1})"
+                  title="Increase quantity"
+                  class="w-7 h-7 flex items-center justify-center text-white hover:bg-black/20 rounded-lg transition font-extrabold text-base select-none cursor-pointer ${cartQty >= prod.stock ? 'opacity-40 cursor-not-allowed' : ''}">+</button>
+        </div>
+      `;
+    } else {
+      cartActionHtml = `
+        <button onclick="addToCart('${pId}')"
+                class="px-3.5 py-2 bg-[#e23744] hover:bg-[#cb202d] text-white text-xs font-semibold rounded-lg transition flex items-center gap-1.5 shadow cursor-pointer">
+          <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"></path></svg>
+          Add to Cart
+        </button>
+      `;
+    }
 
     card.innerHTML = `
       <div>
@@ -132,16 +174,34 @@ function renderProducts(list) {
         <span class="text-[11px] text-slate-500 font-medium">
           Stock: <span class="${isOutOfStock ? 'text-rose-500 font-bold' : 'text-slate-400'}">${prod.stock} left</span>
         </span>
-        <button onclick="addToCart('${prod._id}')" ${isOutOfStock ? 'disabled' : ''}
-                class="px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 disabled:cursor-not-allowed text-white text-xs font-semibold rounded-lg transition flex items-center gap-1 shadow">
-          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-          Add to Cart
-        </button>
+        ${cartActionHtml}
       </div>
     `;
 
     grid.appendChild(card);
   });
+
+  updateFloatingCartBar();
+}
+
+function updateFloatingCartBar() {
+  const bar = document.getElementById('floating-cart-bar');
+  const countEl = document.getElementById('floating-cart-count');
+  const totalEl = document.getElementById('floating-cart-total');
+
+  if (!bar) return;
+
+  const cart = window.Cart.get();
+  const totalCount = cart.reduce((sum, i) => sum + i.quantity, 0);
+  const subtotal = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+
+  if (totalCount > 0) {
+    if (countEl) countEl.textContent = `${totalCount} ${totalCount === 1 ? 'Item' : 'Items'} added`;
+    if (totalEl) totalEl.textContent = `$${subtotal.toFixed(2)}`;
+    bar.classList.remove('hidden');
+  } else {
+    bar.classList.add('hidden');
+  }
 }
 
 function selectCategory(category) {
@@ -158,13 +218,37 @@ function searchProducts() {
 }
 
 function addToCart(prodId) {
-  const product = allProducts.find(p => p._id === prodId);
+  const targetId = getEntityId(prodId);
+  const product = allProducts.find(p => getEntityId(p) === targetId);
   if (product) {
-    window.Cart.add(product, businessId);
+    const success = window.Cart.add(product, businessId);
+    if (success) {
+      renderProducts(allProducts);
+    }
   }
+}
+
+function updateCartItemQty(prodId, newQty) {
+  const targetId = getEntityId(prodId);
+  const product = allProducts.find(p => getEntityId(p) === targetId);
+  if (!product) return;
+
+  if (newQty <= 0) {
+    window.Cart.remove(targetId);
+  } else {
+    const cart = window.Cart.get();
+    const existing = cart.find(i => getEntityId(i.productId) === targetId || getEntityId(i) === targetId);
+    if (!existing) {
+      window.Cart.add(product, businessId);
+    } else {
+      window.Cart.updateQuantity(targetId, newQty);
+    }
+  }
+  renderProducts(allProducts);
 }
 
 // Bind to window
 window.selectCategory = selectCategory;
 window.searchProducts = searchProducts;
 window.addToCart = addToCart;
+window.updateCartItemQty = updateCartItemQty;

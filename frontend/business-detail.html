@@ -48,11 +48,11 @@
     </div>
 
     <!-- Products Grid -->
-    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="shimmer-loader h-72 rounded-2xl"></div>
-      <div class="shimmer-loader h-72 rounded-2xl"></div>
-      <div class="shimmer-loader h-72 rounded-2xl"></div>
-      <div class="shimmer-loader h-72 rounded-2xl"></div>
+    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 pb-24">
+      <div class="shimmer-loader h-44 rounded-2xl"></div>
+      <div class="shimmer-loader h-44 rounded-2xl"></div>
+      <div class="shimmer-loader h-44 rounded-2xl"></div>
+      <div class="shimmer-loader h-44 rounded-2xl"></div>
     </div>
 
     <!-- Empty menu state -->
@@ -62,6 +62,23 @@
     </div>
 
   </main>
+
+  <!-- Floating Bottom Cart Bar -->
+  <div id="floating-cart-bar" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-50 w-[92%] max-w-md bg-[#e23744] text-white rounded-2xl shadow-2xl p-3.5 flex items-center justify-between transition-all duration-300 transform translate-y-0 border border-rose-500/30">
+    <div class="flex items-center gap-3">
+      <div class="bg-white/20 p-2 rounded-xl flex items-center justify-center">
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+      </div>
+      <div>
+        <span id="floating-cart-count" class="font-extrabold text-sm block text-white">0 Items added</span>
+        <span id="floating-cart-total" class="text-xs text-rose-100 font-semibold">$0.00</span>
+      </div>
+    </div>
+    <a href="/cart.html" class="flex items-center gap-1.5 bg-white text-[#e23744] hover:bg-rose-50 px-4 py-2 rounded-xl font-extrabold text-sm shadow-md transition cursor-pointer">
+      <span>Continue</span>
+      <svg class="w-4 h-4 text-[#e23744]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path></svg>
+    </a>
+  </div>
 
   <script src="/js/api.js"></script>
   <script src="/js/common.js"></script>
