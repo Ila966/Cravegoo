@@ -1,0 +1,319 @@
+{
+  "users": [
+    {
+      "_id": "mock_uqndh6xv9",
+      "createdAt": "2026-07-08T13:10:57.934Z",
+      "updatedAt": "2026-07-08T13:10:57.935Z",
+      "name": "System Admin",
+      "email": "admin@delivery.com",
+      "password": "$2a$10$Pq5juIqSEOaB3qXLUZc2ruMD9uhdC8uvh6CJK4eLHGV4MBFadYcpC",
+      "phone": "1234567890",
+      "address": "100 Admin HQ Blvd, NY",
+      "role": "admin"
+    },
+    {
+      "_id": "mock_z5061sfmu",
+      "createdAt": "2026-07-08T13:10:57.936Z",
+      "updatedAt": "2026-07-08T13:10:57.936Z",
+      "name": "Ayan Jyoti",
+      "email": "customer@delivery.com",
+      "password": "$2a$10$Pq5juIqSEOaB3qXLUZc2ruMD9uhdC8uvh6CJK4eLHGV4MBFadYcpC",
+      "phone": "9876543210",
+      "address": "22 Baker Street, London",
+      "role": "customer"
+    },
+    {
+      "_id": "mock_tp6gu61gc",
+      "createdAt": "2026-07-08T13:10:57.937Z",
+      "updatedAt": "2026-07-08T13:10:57.937Z",
+      "name": "Jane Doe",
+      "email": "jane@delivery.com",
+      "password": "$2a$10$Pq5juIqSEOaB3qXLUZc2ruMD9uhdC8uvh6CJK4eLHGV4MBFadYcpC",
+      "phone": "5551234567",
+      "address": "456 Elm St, San Francisco",
+      "role": "customer"
+    },
+    {
+      "_id": "mock_s1elv24qd",
+      "createdAt": "2026-07-08T13:10:57.937Z",
+      "updatedAt": "2026-07-08T13:10:57.937Z",
+      "name": "Chef Mario",
+      "email": "business@delivery.com",
+      "password": "$2a$10$Pq5juIqSEOaB3qXLUZc2ruMD9uhdC8uvh6CJK4eLHGV4MBFadYcpC",
+      "phone": "1112223333",
+      "address": "88 Little Italy Lane, NY",
+      "role": "business"
+    },
+    {
+      "_id": "mock_xffhvtava",
+      "createdAt": "2026-07-08T13:10:57.938Z",
+      "updatedAt": "2026-07-08T13:10:57.938Z",
+      "name": "Sarah Green",
+      "email": "business2@delivery.com",
+      "password": "$2a$10$Pq5juIqSEOaB3qXLUZc2ruMD9uhdC8uvh6CJK4eLHGV4MBFadYcpC",
+      "phone": "4445556666",
+      "address": "15 Organic Oasis Way, NY",
+      "role": "business"
+    },
+    {
+      "_id": "mock_2vyass35a",
+      "createdAt": "2026-07-08T13:10:57.940Z",
+      "updatedAt": "2026-07-08T13:10:57.940Z",
+      "name": "John Express",
+      "email": "driver@delivery.com",
+      "password": "$2a$10$Pq5juIqSEOaB3qXLUZc2ruMD9uhdC8uvh6CJK4eLHGV4MBFadYcpC",
+      "phone": "7778889999",
+      "address": "Central Garage, NY",
+      "role": "delivery"
+    },
+    {
+      "_id": "mock_gqa6aakxc",
+      "createdAt": "2026-07-08T13:10:57.941Z",
+      "updatedAt": "2026-07-08T13:10:57.941Z",
+      "name": "Speedy Sam",
+      "email": "driver2@delivery.com",
+      "password": "$2a$10$Pq5juIqSEOaB3qXLUZc2ruMD9uhdC8uvh6CJK4eLHGV4MBFadYcpC",
+      "phone": "8889990000",
+      "address": "Downtown Hub, NY",
+      "role": "delivery"
+    },
+    {
+      "_id": "mock_66pt5mear",
+      "createdAt": "2026-07-08T13:17:20.915Z",
+      "updatedAt": "2026-07-08T13:17:20.915Z",
+      "name": "Ramesh",
+      "email": "aj@gamil.com",
+      "password": "$2a$10$I3Jh5hZbWDiFjR8OfbYZ2Ob3i8mm1LyB6pB3/nybuijrN4OoKk.pK",
+      "phone": "7777777777",
+      "address": "asdfg",
+      "role": "customer",
+      "profileImage": ""
+    }
+  ],
+  "businesses": [
+    {
+      "_id": "mock_ocv3aqrtr",
+      "createdAt": "2026-07-08T13:10:57.942Z",
+      "updatedAt": "2026-07-08T13:10:57.942Z",
+      "businessName": "Gourmet Pizza Kitchen",
+      "owner": "mock_s1elv24qd",
+      "logo": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&q=80",
+      "address": "88 Little Italy Lane, NY",
+      "contactNumber": "1112223333",
+      "description": "Handcrafted wood-fired pizzas made with local organic ingredients.",
+      "isApproved": true
+    },
+    {
+      "_id": "mock_g2lkvyg5s",
+      "createdAt": "2026-07-08T13:10:57.943Z",
+      "updatedAt": "2026-07-08T13:10:57.943Z",
+      "businessName": "Green Garden Salads & Juice",
+      "owner": "mock_xffhvtava",
+      "logo": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&q=80",
+      "address": "15 Organic Oasis Way, NY",
+      "contactNumber": "4445556666",
+      "description": "Superfood bowls, dynamic organic salads, and fresh cold-press juices.",
+      "isApproved": true
+    }
+  ],
+  "products": [
+    {
+      "_id": "mock_mjvlfzcpf",
+      "createdAt": "2026-07-08T13:10:57.944Z",
+      "updatedAt": "2026-07-19T06:38:05.003Z",
+      "business": "mock_ocv3aqrtr",
+      "name": "Margherita Pizza",
+      "category": "Pizza",
+      "description": "San Marzano tomatoes, fresh buffalo mozzarella, fresh basil, and extra virgin olive oil.",
+      "price": 14.99,
+      "stock": 48,
+      "images": [
+        "https://images.unsplash.com/photo-1604068549290-dea0e4a305ca?w=600&q=80"
+      ]
+    },
+    {
+      "_id": "mock_ld7a7wgm3",
+      "createdAt": "2026-07-08T13:10:57.945Z",
+      "updatedAt": "2026-07-19T06:35:30.372Z",
+      "business": "mock_ocv3aqrtr",
+      "name": "Spicy Pepperoni Pizza",
+      "category": "Pizza",
+      "description": "Classic cheese pizza topped with premium cups pepperoni and dry chili flakes.",
+      "price": 16.99,
+      "stock": 39,
+      "images": [
+        "https://images.unsplash.com/photo-1628840042765-356cda07504e?w=600&q=80"
+      ]
+    },
+    {
+      "_id": "mock_z5dr7f7ab",
+      "createdAt": "2026-07-08T13:10:57.946Z",
+      "updatedAt": "2026-07-08T13:10:57.946Z",
+      "business": "mock_ocv3aqrtr",
+      "name": "Truffle Mushroom Pizza",
+      "category": "Pizza",
+      "description": "White base with wild mushrooms, baby arugula, mozzarella, and a drizzle of truffle oil.",
+      "price": 18.99,
+      "stock": 25,
+      "images": [
+        "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?w=600&q=80"
+      ]
+    },
+    {
+      "_id": "mock_3rsddk201",
+      "createdAt": "2026-07-08T13:10:57.946Z",
+      "updatedAt": "2026-07-08T13:10:57.946Z",
+      "business": "mock_ocv3aqrtr",
+      "name": "Garlic Parmesan Breadsticks",
+      "category": "Sides",
+      "description": "Oven-fresh breadsticks brushed with herb garlic butter and sprinkled with parmesan.",
+      "price": 6.99,
+      "stock": 100,
+      "images": [
+        "https://images.unsplash.com/photo-1544982503-9f984c14501a?w=600&q=80"
+      ]
+    },
+    {
+      "_id": "mock_tdz6iklsz",
+      "createdAt": "2026-07-08T13:10:57.947Z",
+      "updatedAt": "2026-07-19T06:38:06.091Z",
+      "business": "mock_ocv3aqrtr",
+      "name": "Classic Tiramisu",
+      "category": "Desserts",
+      "description": "Layers of espresso-soaked ladyfingers, creamy mascarpone custard, and cocoa powder.",
+      "price": 7.99,
+      "stock": 29,
+      "images": [
+        "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=600&q=80"
+      ]
+    },
+    {
+      "_id": "mock_wvek8s9pk",
+      "createdAt": "2026-07-08T13:10:57.948Z",
+      "updatedAt": "2026-07-08T13:10:57.948Z",
+      "business": "mock_g2lkvyg5s",
+      "name": "Avocado Caesar Bowl",
+      "category": "Salad",
+      "description": "Crisp romaine, shaved parmesan, cherry tomatoes, croutons, fresh avocado, and Caesar dressing.",
+      "price": 12.99,
+      "stock": 60,
+      "images": [
+        "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=600&q=80"
+      ]
+    },
+    {
+      "_id": "mock_kxr2ilay4",
+      "createdAt": "2026-07-08T13:10:57.948Z",
+      "updatedAt": "2026-07-08T13:10:57.948Z",
+      "business": "mock_g2lkvyg5s",
+      "name": "Harvest Quinoa Bowl",
+      "category": "Bowls",
+      "description": "Warm quinoa, roasted sweet potatoes, sliced apples, baby spinach, pumpkin seeds, and tahini.",
+      "price": 13.99,
+      "stock": 45,
+      "images": [
+        "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&q=80"
+      ]
+    },
+    {
+      "_id": "mock_xrdl288lp",
+      "createdAt": "2026-07-08T13:10:57.949Z",
+      "updatedAt": "2026-07-08T13:10:57.949Z",
+      "business": "mock_g2lkvyg5s",
+      "name": "Citrus Ginger Cold Press",
+      "category": "Juice",
+      "description": "Fresh organic carrots, apples, ginger, lemon, and a touch of cayenne pepper.",
+      "price": 5.99,
+      "stock": 80,
+      "images": [
+        "https://images.unsplash.com/photo-1615485290382-441e4d049cb5?w=600&q=80"
+      ]
+    }
+  ],
+  "orders": [
+    {
+      "_id": "mock_2qkoo673z",
+      "createdAt": "2026-07-19T06:35:31.213Z",
+      "updatedAt": "2026-07-19T07:44:29.082Z",
+      "customer": "mock_z5061sfmu",
+      "business": "mock_ocv3aqrtr",
+      "products": [
+        {
+          "product": "mock_mjvlfzcpf",
+          "quantity": 1,
+          "price": 14.99
+        },
+        {
+          "product": "mock_ld7a7wgm3",
+          "quantity": 1,
+          "price": 16.99
+        }
+      ],
+      "totalPrice": 31.979999999999997,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "deliveryAddress": "22 Baker Street, London",
+      "orderStatus": "Delivered",
+      "estimatedDeliveryTime": "30-45 mins",
+      "deliveryPartner": "mock_2vyass35a"
+    },
+    {
+      "_id": "mock_inwr8lg5q",
+      "createdAt": "2026-07-19T06:38:06.821Z",
+      "updatedAt": "2026-07-19T07:24:40.995Z",
+      "customer": "mock_z5061sfmu",
+      "business": "mock_ocv3aqrtr",
+      "products": [
+        {
+          "product": "mock_mjvlfzcpf",
+          "quantity": 1,
+          "price": 14.99
+        },
+        {
+          "product": "mock_tdz6iklsz",
+          "quantity": 1,
+          "price": 7.99
+        }
+      ],
+      "totalPrice": 22.98,
+      "paymentMethod": "cod",
+      "paymentStatus": "paid",
+      "deliveryAddress": "22 Baker Street, London",
+      "orderStatus": "Delivered",
+      "estimatedDeliveryTime": "30-45 mins",
+      "deliveryPartner": "mock_2vyass35a"
+    }
+  ],
+  "deliveries": [
+    {
+      "_id": "mock_w3t3226vl",
+      "createdAt": "2026-07-19T06:46:23.869Z",
+      "updatedAt": "2026-07-19T07:44:29.279Z",
+      "orderId": "mock_2qkoo673z",
+      "deliveryPartner": "mock_2vyass35a",
+      "currentLocation": {
+        "lat": 40.71768,
+        "lng": -74,
+        "address": "Transiting mid-route: 40%"
+      },
+      "deliveryStatus": "delivered",
+      "pickupTime": "2026-07-19T06:46:23.869Z",
+      "deliveryTime": "2026-07-19T07:44:29.279Z"
+    },
+    {
+      "_id": "mock_um0691xjn",
+      "createdAt": "2026-07-19T06:46:30.399Z",
+      "updatedAt": "2026-07-19T07:24:41.509Z",
+      "orderId": "mock_inwr8lg5q",
+      "deliveryPartner": "mock_2vyass35a",
+      "currentLocation": {
+        "lat": 40.723780000000005,
+        "lng": -73.9925,
+        "address": "Transiting mid-route: 90%"
+      },
+      "deliveryStatus": "delivered",
+      "pickupTime": "2026-07-19T06:46:30.399Z",
+      "deliveryTime": "2026-07-19T07:24:41.508Z"
+    }
+  ]
+}

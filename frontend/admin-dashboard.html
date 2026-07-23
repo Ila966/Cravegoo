@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin System Panel - CraveGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Load Socket.io client -->
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <div id="nav-container"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-extrabold text-white">Platform Admin Portal</h1>
+        <p class="text-slate-400 text-sm">Monitor system analytics, approve local merchant listings, and audit system orders</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="/admin-users.html" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 border border-slate-800 rounded-xl text-slate-300 font-semibold text-sm transition">
+          Moderate Users
+        </a>
+      </div>
+    </div>
+
+    <!-- Analytics Dashboard Cards -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Gross Transaction Volume</span>
+        <span id="admin-revenue" class="text-2xl md:text-3xl font-extrabold text-indigo-400 mt-2">$0.00</span>
+      </div>
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Platform Users</span>
+        <span id="admin-users" class="text-2xl md:text-3xl font-extrabold text-teal-400 mt-2">0</span>
+      </div>
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Business Stores</span>
+        <span id="admin-stores" class="text-2xl md:text-3xl font-extrabold text-amber-500 mt-2">0</span>
+      </div>
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Orders Placed</span>
+        <span id="admin-orders" class="text-2xl md:text-3xl font-extrabold text-sky-400 mt-2">0</span>
+      </div>
+    </div>
+
+    <!-- Excel Spreadsheet Database Manager -->
+    <div class="glass-panel p-6 rounded-2xl border border-slate-800 mb-8">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="font-bold text-white text-lg flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            Excel Spreadsheet Database
+          </h3>
+          <p class="text-xs text-slate-500 mt-1">Export or view live system data tables compiled directly as Microsoft Excel spreadsheets.</p>
+        </div>
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-950 text-emerald-400 border border-emerald-500/20">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          Ready to Export
+        </span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Purchased Products -->
+        <div class="flex flex-col p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/80 transition group">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-indigo-600/10 text-indigo-400 p-2.5 rounded-xl group-hover:scale-105 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+            </div>
+            <div>
+              <span class="font-bold text-slate-200 text-sm block">Purchased Products</span>
+              <span class="text-[10px] text-slate-500">Order items & transaction logs</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-auto">
+            <button onclick="previewExcelSheet('purchased-products', 'Purchased Products')" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              View Data
+            </button>
+            <button onclick="downloadExcelSheet('purchased-products')" class="py-2 px-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Driver Directory -->
+        <div class="flex flex-col p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/80 transition group">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-indigo-600/10 text-indigo-400 p-2.5 rounded-xl group-hover:scale-105 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <div>
+              <span class="font-bold text-slate-200 text-sm block">Driver Directory</span>
+              <span class="text-[10px] text-slate-500">Delivery partners & registry</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-auto">
+            <button onclick="previewExcelSheet('drivers', 'Driver Directory')" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              View Data
+            </button>
+            <button onclick="downloadExcelSheet('drivers')" class="py-2 px-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Orders Master List -->
+        <div class="flex flex-col p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/80 transition group">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-indigo-600/10 text-indigo-400 p-2.5 rounded-xl group-hover:scale-105 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+            </div>
+            <div>
+              <span class="font-bold text-slate-200 text-sm block">Orders Master List</span>
+              <span class="text-[10px] text-slate-500">Totals, payment & fulfillment data</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-auto">
+            <button onclick="previewExcelSheet('orders-summary', 'Orders Master List')" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              View Data
+            </button>
+            <button onclick="downloadExcelSheet('orders-summary')" class="py-2 px-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download
+            </button>
+          </div>
+        </div>
+
+        <!-- User Accounts -->
+        <div class="flex flex-col p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/80 transition group">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-indigo-600/10 text-indigo-400 p-2.5 rounded-xl group-hover:scale-105 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            </div>
+            <div>
+              <span class="font-bold text-slate-200 text-sm block">User Accounts</span>
+              <span class="text-[10px] text-slate-500">All customers, merchants & roles</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-auto">
+            <button onclick="previewExcelSheet('users', 'User Accounts')" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              View Data
+            </button>
+            <button onclick="downloadExcelSheet('users')" class="py-2 px-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Product Catalog -->
+        <div class="flex flex-col p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/80 transition group">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-indigo-600/10 text-indigo-400 p-2.5 rounded-xl group-hover:scale-105 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path></svg>
+            </div>
+            <div>
+              <span class="font-bold text-slate-200 text-sm block">Product Catalog</span>
+              <span class="text-[10px] text-slate-500">Global merchant inventory items</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-auto">
+            <button onclick="previewExcelSheet('products', 'Product Catalog')" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              View Data
+            </button>
+            <button onclick="downloadExcelSheet('products')" class="py-2 px-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download
+            </button>
+          </div>
+        </div>
+
+        <!-- Business Stores -->
+        <div class="flex flex-col p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 hover:bg-slate-900/80 transition group">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="bg-indigo-600/10 text-indigo-400 p-2.5 rounded-xl group-hover:scale-105 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+            </div>
+            <div>
+              <span class="font-bold text-slate-200 text-sm block">Businesses & Stores</span>
+              <span class="text-[10px] text-slate-500">Merchant details & owner links</span>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-auto">
+            <button onclick="previewExcelSheet('businesses', 'Businesses & Stores')" class="py-2 px-3 bg-slate-800 hover:bg-slate-700 rounded-lg text-slate-300 text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+              View Data
+            </button>
+            <button onclick="downloadExcelSheet('businesses')" class="py-2 px-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white text-xs font-semibold transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+              Download
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Store Approvals Section -->
+      <div class="lg:col-span-2 glass-panel p-6 rounded-2xl border border-slate-800 h-fit space-y-4">
+        <h3 class="font-bold text-white text-lg">Merchant Moderation Board</h3>
+        <p class="text-xs text-slate-500">Approve or suspend store profiles to authorize them for catalog sales.</p>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead>
+              <tr class="bg-slate-900 border-b border-slate-800 text-slate-400 font-semibold uppercase tracking-wider">
+                <th class="py-3 px-4">Store Name</th>
+                <th class="py-3 px-4">Owner Profile</th>
+                <th class="py-3 px-4">Status</th>
+                <th class="py-3 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="businesses-table-body" class="divide-y divide-slate-850 text-slate-300">
+              <tr>
+                <td colspan="4" class="py-4 text-center text-slate-500 italic">Loading stores roster...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Recent Platform Activity socket log -->
+      <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex flex-col h-96">
+        <h3 class="font-bold text-white text-base mb-2">Live System Log</h3>
+        <p class="text-xs text-slate-500">Global order transactions monitor room</p>
+        <div id="admin-socket-log" class="mt-4 flex-grow bg-slate-900/60 border border-slate-800 rounded-xl p-3 text-[10px] font-mono text-slate-400 overflow-y-auto">
+          <span class="text-slate-600 block">[Console] Listening for system-wide checkout sessions...</span>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Excel Preview Modal -->
+  <div id="preview-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm hidden">
+    <div class="glass-panel w-full max-w-6xl h-[80vh] flex flex-col rounded-2xl border border-slate-800 shadow-2xl relative glow-indigo">
+      
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between p-6 border-b border-slate-800">
+        <div>
+          <h3 id="preview-title" class="text-xl font-extrabold text-white">Spreadsheet Data Preview</h3>
+          <p id="preview-subtitle" class="text-xs text-slate-500 mt-1">Live data query results directly from spreadsheet engine</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <input type="text" id="preview-search" placeholder="Search rows..." class="px-3 py-1.5 bg-slate-900 border border-slate-700 text-xs text-slate-200 rounded-lg focus:outline-none focus:border-indigo-500">
+          <button id="modal-download-btn" class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-xs px-4 py-2 rounded-lg transition flex items-center gap-1.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+            Download Excel
+          </button>
+          <button onclick="closePreviewModal()" class="text-slate-400 hover:text-white p-2 rounded-lg bg-slate-900 border border-slate-800 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Modal Content (Table container) -->
+      <div class="flex-grow overflow-auto p-6">
+        <div class="overflow-x-auto h-full border border-slate-800 rounded-xl bg-slate-900/30">
+          <table class="w-full text-left text-xs border-collapse">
+            <thead id="preview-thead" class="sticky top-0 bg-slate-900/90 backdrop-blur-md z-10">
+              <!-- Dynamically populated headers -->
+            </thead>
+            <tbody id="preview-tbody" class="divide-y divide-slate-800/60">
+              <!-- Dynamically populated rows -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/admin-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Orders - CraveGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <div id="nav-container"></div>
+
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-3xl font-extrabold text-white mb-8">My Orders</h1>
+
+    <div id="orders-list" class="space-y-6">
+      <!-- Loaded dynamically -->
+      <div class="shimmer-loader h-28 rounded-2xl"></div>
+      <div class="shimmer-loader h-28 rounded-2xl"></div>
+    </div>
+
+    <!-- Empty History State -->
+    <div id="history-empty-state" class="hidden text-center py-16">
+      <div class="text-slate-600 mb-4 flex justify-center">
+        <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+      </div>
+      <h3 class="text-xl font-bold text-slate-300">No orders placed yet</h3>
+      <p class="text-slate-500 text-sm mt-1 mb-6">Looks like you haven't ordered anything yet.</p>
+      <a href="/customer-home.html" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow transition">
+        Browse Stores
+      </a>
+    </div>
+
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/order-history.js"></script>
+</body>
+</html>

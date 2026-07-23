@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Store Catalog - CraveGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <div id="nav-container"></div>
+
+  <!-- Store Header Banner -->
+  <header id="store-banner" class="relative h-60 bg-slate-900 border-b border-slate-800">
+    <!-- Shimmer loading background -->
+    <div class="shimmer-loader absolute inset-0"></div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Category Tabs & Search filters -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-slate-900 pb-5">
+      <!-- Tabs -->
+      <div id="categories-tabs" class="flex flex-wrap gap-2">
+        <button onclick="selectCategory('All')" class="px-4 py-2 bg-indigo-600 text-white rounded-xl text-sm font-semibold transition">All Items</button>
+      </div>
+
+      <!-- Search inside store -->
+      <div class="relative w-full md:max-w-xs">
+        <input type="text" id="product-search" onkeyup="searchProducts()" placeholder="Search menu..."
+               class="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-xl text-slate-100 placeholder-slate-500 text-sm focus:outline-none">
+        <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="shimmer-loader h-72 rounded-2xl"></div>
+      <div class="shimmer-loader h-72 rounded-2xl"></div>
+      <div class="shimmer-loader h-72 rounded-2xl"></div>
+      <div class="shimmer-loader h-72 rounded-2xl"></div>
+    </div>
+
+    <!-- Empty menu state -->
+    <div id="empty-menu" class="hidden text-center py-16">
+      <h3 class="text-xl font-bold text-slate-300">No items found</h3>
+      <p class="text-slate-500 text-sm mt-1">Try selecting a different category or search query.</p>
+    </div>
+
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/business-detail.js"></script>
+</body>
+</html>

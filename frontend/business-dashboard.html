@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merchant Dashboard - CraveGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Load Chart.js for premium analytical charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Load Socket.io client -->
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <div id="nav-container"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="flex justify-between items-center gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-extrabold text-white flex items-center gap-2" id="store-title">
+          Store Dashboard
+        </h1>
+        <p class="text-slate-400 text-sm">Manage products, verify transactions, and accept customer orders</p>
+      </div>
+      <a href="/business-products.html" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl transition shadow flex items-center gap-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        Manage Products
+      </a>
+    </div>
+
+    <!-- Overview Stats Counters -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Total Sales -->
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Sales</span>
+        <span id="stat-revenue" class="text-2xl md:text-3xl font-extrabold text-indigo-400 mt-2">$0.00</span>
+      </div>
+      <!-- Active jobs -->
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Active Orders</span>
+        <span id="stat-active" class="text-2xl md:text-3xl font-extrabold text-emerald-400 mt-2">0</span>
+      </div>
+      <!-- Pending orders -->
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Pending Orders</span>
+        <span id="stat-pending" class="text-2xl md:text-3xl font-extrabold text-amber-500 mt-2">0</span>
+      </div>
+      <!-- Products count -->
+      <div class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <span class="text-xs text-slate-500 font-semibold uppercase tracking-wider">Total Products</span>
+        <span id="stat-products" class="text-2xl md:text-3xl font-extrabold text-sky-400 mt-2">0</span>
+      </div>
+    </div>
+
+    <!-- Charts & Analytics -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+      <div class="lg:col-span-2 glass-panel p-6 rounded-2xl border border-slate-800 h-80 flex flex-col">
+        <h3 class="font-bold text-white text-base mb-4">Product Category Mix</h3>
+        <div class="relative flex-grow h-full max-h-[220px]">
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+
+      <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex flex-col justify-between">
+        <h3 class="font-bold text-white text-base mb-2">Merchant Live Room</h3>
+        <p class="text-xs text-slate-500">Real-time orders will pop up instantly without refreshing the page.</p>
+        <div id="merchant-socket-log" class="mt-4 flex-grow bg-slate-900/60 border border-slate-800/80 rounded-xl p-3 text-[10px] font-mono text-slate-400 overflow-y-auto max-h-36">
+          <span class="text-slate-600 block">[Console] Listening for customer checkout alerts...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Incoming Orders Queue -->
+    <section class="space-y-4 mb-8">
+      <h2 class="text-2xl font-bold text-white">Active Order Queue</h2>
+      
+      <div id="active-orders-list" class="space-y-4">
+        <!-- Dyn contents -->
+        <div class="shimmer-loader h-32 rounded-2xl"></div>
+      </div>
+
+      <!-- Empty state -->
+      <div id="queue-empty-state" class="hidden text-center py-12 bg-slate-900/20 border border-dashed border-slate-800 rounded-2xl">
+        <p class="text-slate-500 text-sm">No active orders in the queue right now.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/business-dashboard.js"></script>
+</body>
+</html>

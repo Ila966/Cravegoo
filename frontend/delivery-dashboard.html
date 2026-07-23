@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Console - CraveGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+  <!-- Load Socket.io client -->
+  <script src="/socket.io/socket.io.js"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <div id="nav-container"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div>
+        <h1 class="text-3xl font-extrabold text-white">Courier Control Center</h1>
+        <p class="text-slate-400 text-sm">Accept delivery jobs, update live tracking coordinates, and track earnings</p>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <div class="glass-panel py-2.5 px-4 rounded-xl border border-slate-800 text-xs">
+          <span class="text-slate-500 font-medium block">Total Deliveries</span>
+          <span id="earnings-count" class="font-extrabold text-slate-200 text-lg">0</span>
+        </div>
+        <div class="glass-panel py-2.5 px-4 rounded-xl border border-slate-800 text-xs">
+          <span class="text-slate-500 font-medium block">Total Earnings</span>
+          <span id="earnings-total" class="font-extrabold text-indigo-400 text-lg">$0.00</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Available Jobs Board -->
+      <div class="lg:col-span-2 space-y-6">
+        <h2 class="text-xl font-bold text-white flex items-center gap-2">
+          Available Deliveries
+          <span class="inline-block w-2 h-2 bg-indigo-500 rounded-full animate-ping"></span>
+        </h2>
+        
+        <div id="available-jobs-list" class="space-y-4">
+          <!-- Loaded dynamically -->
+          <div class="shimmer-loader h-28 rounded-xl"></div>
+        </div>
+
+        <div id="jobs-empty-state" class="hidden text-center py-12 bg-slate-900/10 border border-dashed border-slate-800 rounded-2xl">
+          <p class="text-slate-500 text-sm">No available delivery jobs. Waiting for stores to prepare orders...</p>
+        </div>
+      </div>
+
+      <!-- Active assignment and location simulator -->
+      <div class="space-y-6">
+        <h2 class="text-xl font-bold text-white">Active Assignment</h2>
+        
+        <div id="active-assignment-card" class="space-y-4">
+          <!-- Filled dynamically if driver claims job -->
+          <div class="glass-panel p-6 rounded-2xl border border-slate-800 text-center text-slate-500 text-sm">
+            No active assignment. Accept an order from the jobs board to begin delivery.
+          </div>
+        </div>
+
+        <!-- Ledger History -->
+        <div class="glass-panel p-6 rounded-2xl border border-slate-800">
+          <h3 class="font-bold text-white text-base mb-4">Earnings Log</h3>
+          <div id="ledger-history-list" class="space-y-3 max-h-48 overflow-y-auto pr-2 text-xs">
+            <div class="text-slate-600 italic">No completed deliveries on record.</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/delivery-dashboard.js"></script>
+</body>
+</html>

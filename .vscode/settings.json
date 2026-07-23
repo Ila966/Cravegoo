@@ -1,0 +1,15 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": true,
+  "files.exclude": {
+    "**/.git": true,
+    "**/.DS_Store": true,
+    "**/node_modules": false
+  },
+  "search.useIgnoreFiles": true,
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "html": "html"
+  }
+}

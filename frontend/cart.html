@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart - CraveGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <div id="nav-container"></div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <h1 class="text-3xl font-extrabold text-white mb-8">Your Cart</h1>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      
+      <!-- Cart Items List -->
+      <div class="lg:col-span-2 space-y-4" id="cart-items-container">
+        <!-- Will be filled dynamically -->
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="glass-panel p-6 rounded-2xl border border-slate-800 h-fit space-y-6">
+        <h3 class="text-lg font-bold text-white border-b border-slate-800 pb-3">Order Summary</h3>
+        
+        <div class="space-y-3 text-sm text-slate-400">
+          <div class="flex justify-between">
+            <span>Subtotal</span>
+            <span id="summary-subtotal" class="text-slate-200 font-semibold">$0.00</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Delivery Fee</span>
+            <span id="summary-delivery" class="text-slate-200 font-semibold">$3.99</span>
+          </div>
+          <div class="flex justify-between">
+            <span>Service Tax (8%)</span>
+            <span id="summary-tax" class="text-slate-200 font-semibold">$0.00</span>
+          </div>
+          <div class="border-t border-slate-800 pt-3 flex justify-between text-base text-white font-bold">
+            <span>Grand Total</span>
+            <span id="summary-total" class="text-indigo-400">$0.00</span>
+          </div>
+        </div>
+
+        <button onclick="goToCheckout()" id="btn-checkout"
+                class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg transition flex items-center justify-center gap-2">
+          <span>Proceed to Checkout</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Empty State -->
+    <div id="cart-empty-state" class="hidden text-center py-20 max-w-md mx-auto">
+      <div class="text-slate-600 mb-4 flex justify-center">
+        <svg class="w-20 h-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+      </div>
+      <h3 class="text-2xl font-bold text-slate-300">Your cart is empty</h3>
+      <p class="text-slate-500 text-sm mt-2 mb-6">Looks like you haven't added anything to your cart yet.</p>
+      <a href="/customer-home.html" class="px-5 py-3 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-xl shadow transition">
+        Browse Stores
+      </a>
+    </div>
+
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/cart.js"></script>
+</body>
+</html>

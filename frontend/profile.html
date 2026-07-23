@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile Settings - CraveGo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen">
+
+  <div id="nav-container"></div>
+
+  <main class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-10 relative">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-900/10 via-slate-950 to-slate-950 -z-10 animate-pulse"></div>
+    
+    <h1 class="text-3xl font-extrabold text-white mb-2">Account Settings</h1>
+    <p class="text-slate-400 text-sm mb-8">Update your personal contact details and security passwords</p>
+
+    <div class="glass-panel p-6 sm:p-8 rounded-2xl border border-slate-800 shadow-2xl relative glow-indigo">
+      <form id="profile-form" class="space-y-6">
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="prof-name" class="block text-sm font-semibold text-slate-300 mb-1">Full Name</label>
+            <input type="text" id="prof-name" required placeholder="John Doe"
+                   class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 text-slate-100 rounded-xl transition">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1">Registered Role</label>
+            <input type="text" id="prof-role" disabled
+                   class="w-full px-4 py-2.5 bg-slate-950 border border-slate-900 text-slate-500 rounded-xl font-bold uppercase tracking-wider cursor-not-allowed">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-500 mb-1">Email Address (Read-only)</label>
+            <input type="email" id="prof-email" disabled
+                   class="w-full px-4 py-2.5 bg-slate-950 border border-slate-900 text-slate-500 rounded-xl font-mono cursor-not-allowed">
+          </div>
+          <div>
+            <label for="prof-phone" class="block text-sm font-semibold text-slate-300 mb-1">Phone Number</label>
+            <input type="tel" id="prof-phone" required placeholder="123-456-7890"
+                   class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 text-slate-100 rounded-xl transition">
+          </div>
+        </div>
+
+        <div>
+          <label for="prof-address" class="block text-sm font-semibold text-slate-300 mb-1">Address / HQ Destination</label>
+          <input type="text" id="prof-address" required placeholder="123 Main St, City, Zip"
+                 class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 text-slate-100 rounded-xl transition">
+        </div>
+
+        <hr class="border-slate-800">
+
+        <!-- Password Change Section -->
+        <div class="space-y-4">
+          <h3 class="font-bold text-white text-base">Change Password</h3>
+          <p class="text-xs text-slate-500 leading-normal">Leave blank if you do not want to alter your password.</p>
+          <div>
+            <label for="prof-password" class="block text-sm font-semibold text-slate-300 mb-1">New Password</label>
+            <input type="password" id="prof-password" placeholder="•••••••• (Min 6 chars)"
+                   class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 text-slate-100 rounded-xl transition">
+          </div>
+        </div>
+
+        <button type="submit" id="btn-profile-submit"
+                class="w-full py-3.5 bg-indigo-600 hover:bg-indigo-500 text-white font-semibold rounded-xl shadow-lg transition">
+          Update Profile Information
+        </button>
+
+      </form>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/profile.js"></script>
+</body>
+</html>
